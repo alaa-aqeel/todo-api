@@ -1,0 +1,23 @@
+version: "3"
+services:
+  development:
+    build:
+      dockerfile: Dockerfile
+      context: ./api
+    volumes:
+      - ./api:/app
+    ports:
+    - 8080:8080
+    depends_on:
+      - database
+
+  database:
+    image: postgres
+    environment:
+      POSTGRES_USER: db_username
+      POSTGRES_PASSWORD: db_pass
+      POSTGRES_DB: app_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data

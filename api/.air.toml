@@ -1,0 +1,7 @@
+[default]
+command = "api-build"
+debug = true
+include = [".go"]
+exclude = []
+build = "go build -o api-build"
+port = "8010"
