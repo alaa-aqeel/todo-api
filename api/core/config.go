@@ -1,4 +1,4 @@
-package main
+package core
 
 import (
 	"log"
@@ -28,8 +28,9 @@ type Config struct {
 	DatabasePassword string `envconfig:"DB_PASSWORD" default:""`
 }
 
-func (cfg *Config) LoadConfig() {
-	err := godotenv.Load(filepath.Join(cfg.BaseDir, ".env"))
+func (cfg *Config) LoadConfig(envName string) {
+
+	err := godotenv.Load(filepath.Join(cfg.BaseDir, envName))
 	if err != nil {
 		log.Fatalf("Error loading .env file %s", err)
 	}

@@ -1,13 +1,14 @@
 package main
 
 import (
-	"github.com/fasthttp/router"
+	"github.com/alaa-aqeel/todo-api/core"
+	"github.com/alaa-aqeel/todo-api/helpers"
 )
 
 func main() {
-	config := &Config{}
-	config.LoadConfig()
-	fastRouter := router.New()
-	apiRoutes(fastRouter.Group("/api"))
-	fastHTTPServer(config, fastRouter.Handler)
+	app := core.NewApp(&core.Config{
+		BaseDir: helpers.GetBaseDir("api"),
+	})
+	app.Config.LoadConfig(".env")
+	app.FasthttpRunServer()
 }
