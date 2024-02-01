@@ -18,4 +18,5 @@ COPY . .
 
 EXPOSE 8080
 
-CMD ["air", "-c", ".air.toml"]
+CMD ["go", "test", "./test"]
+# CMD ["air", "-c", ".air.toml"]
