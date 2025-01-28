@@ -1,4 +1,4 @@
-package form_requests
+package validators
 
 import (
 	"net/http"
@@ -6,13 +6,13 @@ import (
 	"github.com/alaa-aqeel/todo/src/helpers"
 )
 
-type UserValidated struct {
+type UserValidator struct {
 	Name     string `json:"name" validate:"required,min=3,max=50"`
 	Username string `json:"username" validate:"required,min=3,max=20"`
 	Password string `json:"password" validate:"required,min=8"`
 }
 
-func UserValidate(r *http.Request) (*UserValidated, helpers.ErrorValidation) {
+func UserValidate(r *http.Request) (*UserValidator, helpers.ErrorValidation) {
 
-	return helpers.MakeValidate[UserValidated](r)
+	return helpers.MakeValidate[UserValidator](r)
 }
