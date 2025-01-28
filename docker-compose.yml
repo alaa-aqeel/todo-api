@@ -1,0 +1,32 @@
+services:
+  testing:
+    container_name: todo_api_dev
+    build:
+      dockerfile: ./Docker/Dockerfile
+      context: .
+    volumes:
+      - ./:/app
+    ports:
+    - 8080:8080
+    environment:
+      APP_ENV: development
+    depends_on:
+      - postgres
+    networks:
+      - pgdb-net
+  postgres:
+    image: postgres
+    networks:
+      - pgdb-net
+    user: root
+    environment:
+      POSTGRES_USER: db_username
+      POSTGRES_PASSWORD: db_pass
+      POSTGRES_DB: app_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./Docker/pg_sql:/docker-entrypoint-initdb.d/
+
+networks:
+  pgdb-net:
