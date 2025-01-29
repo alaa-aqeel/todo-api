@@ -12,6 +12,8 @@ func NewChiRouter() *chi.Mux {
 			userHandler := user_handler.New()
 
 			r.Post("/", userHandler.Store)
+			r.Get("/", userHandler.Index)
+			r.Get("/{id}", userHandler.Show)
 		})
 	})
 	return r
