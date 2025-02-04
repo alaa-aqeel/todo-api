@@ -1,22 +1,22 @@
-# ToDo Api 
-Api for todo app 
+# A Task Management System (TMS) 
+A Task Management System (TMS) is a software application designed to help individuals or teams organize, track, and manage tasks efficiently. It allows users to create, assign, prioritize, and monitor the progress of tasks across projects, ensuring collaboration and productivity.
 
-## Technologies
-- Golang
-- ari for hotreload 
-- Docker
-- Go-chi
-- Gorm ORM [PostgreSQL]
-- JWT Authentication
-- Swagger
 
 ## Features
-- [ ] Authentication
+- [ ] Authentication 
+- [ ] Authorization
 - [ ] Users Management
 - [ ] Tasks Management
 - [ ] Comments Management
 - [ ] Tags Management
 - [ ] Files Management
+
+## Technologies
+- Golang
+- Docker
+- Nginx
+- PostgresSQL 
+- JWT Authentication
 
 ## Run 
 ```sh
