@@ -21,9 +21,9 @@ func (h UserHandler) Index(w http.ResponseWriter, r *http.Request) {
 
 func (h UserHandler) Show(w http.ResponseWriter, r *http.Request) {
 
-	users := services.
+	user := services.
 		UserService().
 		Get(chi.URLParam(r, "id"))
 
-	helpers.Response(w).Json(200, users)
+	helpers.Response(w).Json(200, user)
 }

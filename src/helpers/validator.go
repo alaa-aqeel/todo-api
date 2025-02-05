@@ -12,15 +12,15 @@ func Validator(errorsMap ErrorValidation, body interface{}) {
 	if err := validate.Struct(body); err != nil {
 		for _, vErr := range err.(validator.ValidationErrors) {
 
-			errorsMap.Add(vErr.Field(), FieldErrorMessage(vErr))
+			errorsMap.Add(vErr.Field(), FieldErrorMessage(vErr.Field(), vErr))
 		}
 	}
 }
 
 // Map error messages for validation tags
-func FieldErrorMessage(err validator.FieldError) string {
+func FieldErrorMessage(fieldName string, err validator.FieldError) string {
 
-	return lang.GetErrors(err.Tag(), err)
+	return lang.GetErrors(err.Tag(), fieldName, err)
 }
 
 func MakeValidate[T any](r *http.Request) (*T, ErrorValidation) {

@@ -6,12 +6,23 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-func GetErrors(key string, field validator.FieldError) string {
-	if _, ok := ValidateErrorsMap[key]; !ok {
-		return key
+func FormatMessage(msg string, params map[string]string) string {
+	for key, val := range params {
+		placeholder := ":" + key
+		msg = strings.ReplaceAll(msg, placeholder, val)
+	}
+	return msg
+}
+
+func GetErrors(rule, fielName string, field validator.FieldError) string {
+	if _, ok := ValidateErrorsMap[rule]; !ok {
+		return rule
 	}
 
-	return ValidateErrorsMap[key](field)
+	return FormatMessage(ValidateErrorsMap[rule], map[string]string{
+		"attr":  fielName,
+		"param": field.Param(),
+	})
 }
 
 func GetField(key string) string {

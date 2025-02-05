@@ -1,6 +1,9 @@
 package base_service
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
+)
 
 func NewBaseService[T interface{}](db *gorm.DB) *BaseService[T] {
 	return &BaseService[T]{
@@ -12,16 +15,19 @@ func (s *BaseService[T]) Db() *gorm.DB {
 	return s.db
 }
 
-func (s *BaseService[T]) CountOf(db *gorm.DB, model interface{}) int64 {
-	var total int64
-	db.Model(model).Count(&total)
-
-	return total
-}
-
-func (s *BaseService[T]) Get(pk string) *T {
+func (s *BaseService[T]) Delete(pk string) bool {
 
 	var model *T
-	s.db.Where("id = ?", pk).First(&model)
-	return model
+	tx := s.db.Where("id = ?", pk).Delete(&model)
+
+	return tx.Error == nil
+}
+
+func (s *BaseService[T]) Update(pk string, data map[string]interface{}) (records []T, tx *gorm.DB) {
+	tx = s.db.Model(&records).
+		Clauses(clause.Returning{}).
+		Where("id = ?", pk).
+		Updates(data)
+
+	return
 }

@@ -9,13 +9,13 @@ import (
 )
 
 func (h UserHandler) Store(w http.ResponseWriter, r *http.Request) {
-	validated, err := validators.UserValidate(r)
-	if err.HasErrors() {
-		helpers.Response(w).ValidationErrors(err)
+	validator := validators.NewUserValidate(r)
+	if !validator.CreateValidate() {
+		helpers.Response(w).Status(422).Error("invalid error", validator.Errors())
 
 		return
 	}
-	user, er := services.UserService().Create(validated)
+	user, er := services.UserService().Create(validator.Validated())
 	if er != nil {
 		helpers.Response(w).Error("invalid error", er.Error())
 
@@ -23,5 +23,5 @@ func (h UserHandler) Store(w http.ResponseWriter, r *http.Request) {
 	}
 	helpers.Response(w).
 		Status(http.StatusCreated).
-		Success("User created successfully", user)
+		Success("User updated successfully", user)
 }

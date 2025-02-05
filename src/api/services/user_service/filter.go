@@ -2,6 +2,7 @@ package user_service
 
 import (
 	"github.com/alaa-aqeel/todo/src/api/models"
+	"github.com/alaa-aqeel/todo/src/api/ports"
 	"github.com/alaa-aqeel/todo/src/helpers"
 	"gorm.io/gorm"
 )
@@ -24,5 +25,11 @@ func (s UserService) Filter(args helpers.Map) (query *gorm.DB) {
 func (s UserService) Get(pk string) (user *models.User) {
 
 	s.Filter(helpers.Map{"id": pk}).First(&user)
+
 	return
+}
+
+func (s UserService) Paginate(p ports.PaginatorPort, args helpers.Map) map[string]interface{} {
+
+	return s.Base.Paginate(s.Filter(args), p).ToMap()
 }

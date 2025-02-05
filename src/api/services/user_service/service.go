@@ -2,31 +2,21 @@ package user_service
 
 import (
 	"github.com/alaa-aqeel/todo/src/api/models"
-	"github.com/alaa-aqeel/todo/src/api/ports"
-	"github.com/alaa-aqeel/todo/src/api/services/base_service"
-	"github.com/alaa-aqeel/todo/src/api/validators"
-	"github.com/alaa-aqeel/todo/src/helpers"
 )
 
-type UserService struct {
-	Base *base_service.BaseService[models.User]
+func (s UserService) Create(validated map[string]interface{}) (user *models.User, err error) {
+
+	err = s.Base.Db().Model(&user).Create(validated).Error
+	return
 }
 
-func (s UserService) Create(validated *validators.UserValidator) (*models.User, error) {
-	user := &models.User{
-		Name:     validated.Name,
-		Username: validated.Username,
-	}
-	user.SetPassword(validated.Password)
-	tx := s.Base.Db().Create(&user)
-	if tx.Error != nil {
-		return nil, tx.Error
-	}
+func (s UserService) Update(pk string, data map[string]interface{}) ([]models.User, error) {
 
-	return user, nil
+	records, tx := s.Base.Update(pk, data)
+	return records, tx.Error
 }
 
-func (s UserService) Paginate(p ports.PaginatorPort, args helpers.Map) map[string]interface{} {
+func (s UserService) Delete(pk string) bool {
 
-	return s.Base.Paginate(s.Filter(args), p).ToMap()
+	return s.Base.Delete(pk)
 }

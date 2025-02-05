@@ -11,7 +11,7 @@ type User struct {
 	ID          string         `json:"id" gorm:"primaryKey;type:uuid;default:uuid_generate_v4();not null"`
 	Name        string         `json:"name" gorm:"type:varchar(100);not null"`
 	Username    string         `json:"username" gorm:"type:varchar(100);unique;not null"`
-	Password    string         `json:"password" gorm:"type:varchar(255);not null"`
+	Password    string         `gorm:"type:varchar(255);not null"`
 	IsActivated bool           `json:"is_activated" gorm:"default:false"`
 	CreatedAt   time.Time      `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt   time.Time      `json:"updated_at" gorm:"autoUpdateTime"`
@@ -20,6 +20,12 @@ type User struct {
 
 func (user *User) SetPassword(value string) (err error) {
 	user.Password, err = helpers.MakeHash(value)
+
+	return
+}
+
+func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
+	u.SetPassword(u.Password)
 
 	return
 }
