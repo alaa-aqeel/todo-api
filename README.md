@@ -28,8 +28,8 @@ $ go run ./src/cmd/main.go # run server
 
 
 # RUN TEST
-$ sh ./cmd.sh test  # run test in container
+$ sh ./cmd.sh test ./... #OR units/... | features/... 
 # OR 
-$ go test ./src/test/**/*   
+$ go test ./src/test/... 
 ```
 
