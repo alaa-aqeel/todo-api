@@ -11,3 +11,9 @@ func MakeHash(value string) (string, error) {
 	}
 	return string(hashedPassword), nil
 }
+
+func VerifyHash(value string, hashValue string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hashValue), []byte(value))
+
+	return err == nil
+}

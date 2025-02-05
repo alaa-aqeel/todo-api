@@ -3,7 +3,7 @@
 ## Features
 - [ ] Authentication 
 - [ ] Authorization
-- [ ] Users Management
+- [X] Users Management
 - [ ] Tasks Management
 - [ ] Comments Management
 - [ ] Tags Management
